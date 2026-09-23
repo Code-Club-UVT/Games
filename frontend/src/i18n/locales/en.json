@@ -1,0 +1,163 @@
+{
+  "common": {
+    "back": "Back",
+    "exit": "Exit",
+    "games": "Games",
+    "language": "Language"
+  },
+  "login": {
+    "title": "Touch Games",
+    "subtitle": "Enter a username to start playing.",
+    "placeholder": "Your name",
+    "play": "Play",
+    "checking": "Checking…",
+    "errors": {
+      "invalid": "Please enter a username.",
+      "taken": "That username is already taken — try another one.",
+      "network": "Could not reach the server. Please try again."
+    }
+  },
+  "gameSelect": {
+    "title": "Choose a game",
+    "playingAs": "Playing as {{username}}"
+  },
+  "logout": {
+    "button": "Log Out",
+    "title": "Log out",
+    "description": "Enter the staff password to log out and let someone else sign in.",
+    "passwordPlaceholder": "Password",
+    "confirm": "Log out",
+    "errors": {
+      "incorrect": "Incorrect password.",
+      "tooMany": "Too many wrong attempts — wait a minute and try again.",
+      "network": "Could not reach the server. Please try again."
+    }
+  },
+  "gameDetail": {
+    "play": "Play",
+    "leaderboard": "Leaderboard",
+    "noScores": "No scores yet — be the first to play!"
+  },
+  "gamePage": {
+    "comingSoon": "Coming soon",
+    "placeholderDescription": "This game hasn't been built yet — this is a placeholder for the real gameplay."
+  },
+  "games": {
+    "f1-lights-out": {
+      "title": "F1 Lights Out",
+      "description": "Watch the five red lights go out, then tap as close to that moment as you can. Tap too early and you jump-start — 0 points!"
+    },
+    "stack-the-blocks": {
+      "title": "Stack the Blocks",
+      "description": "Tap to drop each sliding block onto the stack. Overhang gets sliced off, so stay precise and build the tower as high as you can."
+    },
+    "whack-a-mole": {
+      "title": "Whack-a-Mole",
+      "description": "Moles pop up from their holes — tap them before they duck back down. Chain hits together for combo bonuses."
+    },
+    "lane-swipe-runner": {
+      "title": "Lane-Swipe Runner",
+      "description": "Swipe left or right (or use the arrow keys or A and D) to steer your car between lanes and dodge the traffic. The longer you survive, the faster it gets — the farthest distance wins."
+    },
+    "maze-ball-drag": {
+      "title": "Maze Ball Drag",
+      "description": "Drag the ball through the maze to the exit, or steer it with the arrow keys or WASD. Pick up coins for bonus points, but be quick — every second costs points, and a hole costs you time and sets you back."
+    },
+    "simon-says-colors": {
+      "title": "Simon-Says Color Sequence",
+      "description": "Repeat the growing pattern of colored squares in the right order. One wrong tap ends the round."
+    },
+    "card-flip-matching": {
+      "title": "Card-Flip Matching",
+      "description": "Flip two cards at a time to find matching pairs. Fewer flips and a faster time earn a better score."
+    },
+    "balloon-pop-precision": {
+      "title": "Balloon Pop Precision",
+      "description": "Pop balloons the instant they appear for a perfect hit. Timing accuracy boosts your score multiplier."
+    },
+    "bomb-defusal": {
+      "title": "Bomb Defusal",
+      "description": "Read the manual, then defuse the module before the timer runs out. More modules mean more to juggle at once."
+    }
+  },
+  "f1LightsOut": {
+    "wait": "Wait for the lights to go out…",
+    "go": "GO!",
+    "jumpStart": "Jump start! 0 points",
+    "reactionTime": "{{value}} ms"
+  },
+  "gameShell": {
+    "tapToStart": "Tap anywhere to start",
+    "saving": "Saving score…",
+    "saved": "Score saved!",
+    "error": "Couldn't save score — check your connection.",
+    "playAgain": "Play Again",
+    "gameOver": "Game over",
+    "standing": {
+      "first": "You set the first score on the board!",
+      "best": "New best score — you are #1!",
+      "top": "Congrats, you are in the top 5! You placed #{{rank}}",
+      "percent": "You did better than {{percent}}% of players",
+      "keepGoing": "Keep practicing — you will beat more players next time!"
+    }
+  },
+  "simonSays": {
+    "watch": "Watch the pattern…",
+    "yourTurn": "Your turn!",
+    "round": "Round {{value}}",
+    "pad": "Color {{value}}",
+    "roundsResult": "{{value}} rounds completed"
+  },
+  "cardFlip": {
+    "moves": "Moves: {{value}}",
+    "time": "Time: {{value}} s",
+    "card": "Card {{value}}",
+    "score": "Score: {{value}}",
+    "details": "{{moves}} moves in {{seconds}} s"
+  },
+  "whackAMole": {
+    "score": "Score: {{value}}",
+    "time": "Time: {{value}} s",
+    "combo": "Combo x{{value}}",
+    "hole": "Hole {{value}}",
+    "result": "{{value}} points",
+    "details": "{{hits}} moles whacked · best combo {{combo}}"
+  },
+  "balloonPop": {
+    "score": "Score: {{value}}",
+    "progress": "Balloon {{current}}/{{total}}",
+    "multiplier": "x{{value}}",
+    "balloon": "Balloon",
+    "result": "{{value}} points",
+    "details": "{{popped}} of {{total}} popped · {{perfect}} perfect",
+    "judgment": {
+      "perfect": "Perfect!",
+      "great": "Great!",
+      "good": "Good",
+      "early": "Too early",
+      "late": "Too late",
+      "miss": "Missed"
+    }
+  },
+  "stackBlocks": {
+    "score": "Blocks: {{value}}",
+    "perfect": "Perfect!",
+    "result_one": "{{count}} block stacked",
+    "result_other": "{{count}} blocks stacked"
+  },
+  "mazeBall": {
+    "time": "Time: {{value}} s",
+    "coins": "Coins: {{value}}/{{total}}",
+    "penalty_one": "{{count}} fall (+3 s)",
+    "penalty_other": "{{count}} falls (+3 s each)",
+    "result": "{{value}} points",
+    "details": "{{coins}} of {{totalCoins}} coins in {{seconds}} s",
+    "falls_one": "{{count}} fall into a hole: +{{seconds}} s",
+    "falls_other": "{{count}} falls into holes: +{{seconds}} s"
+  },
+  "laneRunner": {
+    "distance": "Distance: {{value}} m",
+    "speed": "{{value}} km/h",
+    "result": "{{value}} m driven"
+  }
+}

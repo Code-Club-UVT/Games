@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "@fontsource-variable/lexend";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/700.css";
+
+/*
+ * Code Club visual identity (docs/visual-identity.pdf, pp. 18-27).
+ * Fonts: Lexend is primary; Roboto is the fallback for missing characters.
+ * Colours: use the palette as-is — tints (80/60/40/20%) are allowed, but no
+ * other shades. Text/background pairs should follow the accessible
+ * combinations on p. 27 (e.g. ink on green, butter on cherry, cream on iris).
+ */
+@theme {
+  --font-sans: "Lexend Variable", "Roboto", ui-sans-serif, system-ui, sans-serif;
+
+  /* Core + secondary palette */
+  --color-brand: #41b653; /* core Code Club green */
+  --color-cherry: #da315f;
+  --color-butter: #f8f294;
+  --color-iris: #46499e;
+
+  /* Supporting palette — bright */
+  --color-tangerine: #f26a45;
+  --color-bubblegum: #ef60a3;
+  --color-azure: #31a9e0;
+  --color-sun: #fedf00;
+  --color-mint: #4aba7a;
+  --color-cream: #f7f3ed;
+
+  /* Supporting palette — dark */
+  --color-dusk: #37384d;
+  --color-ink: #061719;
+  --color-plum: #632341;
+}
+
+@layer base {
+  body {
+    @apply bg-cream text-ink;
+  }
+}
+
+/* Approach ring for Balloon Pop Precision: shrinks onto the balloon; the
+   animation duration is set inline per balloon. */
+@keyframes ring-shrink {
+  from {
+    transform: scale(3);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.ring-shrink {
+  animation-name: ring-shrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Sliced-off overhang in Stack the Blocks: tumbles down and fades out. */
+@keyframes block-fall {
+  to {
+    transform: translateY(260px) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+.block-fall {
+  animation: block-fall 700ms ease-in forwards;
+}
+
+/* Stack the Blocks: the tapped block falls from its hover height onto the
+   tower (--drop-from is the starting offset), or drops past it on a miss. */
+@keyframes block-drop {
+  from {
+    transform: translateY(var(--drop-from));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes block-miss {
+  from {
+    transform: translateY(var(--drop-from));
+  }
+  to {
+    transform: translateY(420px) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+.block-drop {
+  animation: block-drop 220ms cubic-bezier(0.5, 0, 1, 1) forwards;
+}
+
+.block-miss {
+  animation: block-miss 480ms ease-in forwards;
+}
+
+/* Maze Ball Drag: the ball shrinks away when it falls into a hole. */
+@keyframes ball-fall {
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.ball-fall {
+  animation: ball-fall 450ms ease-in forwards;
+}
+
+/* Lane-Swipe Runner: the player's car wobbles and fades a little after a crash. */
+@keyframes car-crash {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-14deg) translateX(-4px);
+  }
+  75% {
+    transform: rotate(12deg) translateX(4px);
+  }
+}
+
+.car-crash {
+  animation: car-crash 260ms ease-in-out 2;
+  opacity: 0.85;
+}
