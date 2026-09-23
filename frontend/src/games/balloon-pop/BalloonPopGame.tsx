@@ -321,12 +321,39 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
+// Start-screen preview: same HUD and play field as a round, with a few
+// balloons at different points of their approach.
+const PREVIEW_BALLOONS = [
+  { x: 28, y: 42, color: 0, ring: 2.2 },
+  { x: 68, y: 58, color: 2, ring: 1.6 },
+  { x: 46, y: 76, color: 3, ring: 1.15 },
+]
+
+function Preview() {
+  const { t } = useTranslation()
+  return (
+    <div className="relative flex-1 overflow-hidden bg-ink text-cream">
+      <div className="absolute inset-x-0 top-4 flex justify-center gap-6 text-lg font-semibold">
+        <span>{t('balloonPop.score', { value: 0 })}</span>
+        <span>{t('balloonPop.progress', { current: 0, total: BALLOON_COUNT })}</span>
+      </div>
+
+      {PREVIEW_BALLOONS.map((balloon) => (
+        <div
+          key={balloon.x}
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${balloon.x}%`, top: `${balloon.y}%` }}
+        >
+          <BalloonShape colorClass={BALLOON_COLORS[balloon.color]} staticRingScale={balloon.ring} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function BalloonPopGame() {
   return (
-    <GameShell
-      gameId={GAME_ID}
-      visual={<BalloonShape colorClass="bg-cherry" staticRingScale={1.9} />}
-    >
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

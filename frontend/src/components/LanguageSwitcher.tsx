@@ -24,7 +24,7 @@ export function LanguageSwitcher() {
       type="button"
       onClick={() => i18n.changeLanguage(NEXT_LANGUAGE[current] ?? 'en')}
       aria-label={t('common.language')}
-      className="h-10 w-10 overflow-hidden rounded-full ring-2 ring-ink/15 transition hover:ring-brand active:scale-95"
+      className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-ink/15 transition hover:ring-brand active:scale-95"
     >
       <img src={FLAGS[current] ?? gbFlag} alt="" className="h-full w-full object-cover" />
     </button>

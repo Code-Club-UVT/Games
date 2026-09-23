@@ -186,7 +186,12 @@ interface View {
   elapsedMs: number
 }
 
-function Round({ finish }: GameShellApi) {
+interface RoundProps extends GameShellApi {
+  initialMaze?: Maze
+  onMount: () => void
+}
+
+function Round({ finish, initialMaze, onMount }: RoundProps) {
   const { t } = useTranslation()
   const boardRef = useRef<HTMLDivElement>(null)
   const finishRef = useRef(finish)
@@ -194,7 +199,8 @@ function Round({ finish }: GameShellApi) {
     finishRef.current = finish
   }, [finish])
 
-  const [maze] = useState(generateMaze)
+  const [maze] = useState(() => initialMaze ?? generateMaze())
+  useEffect(onMount, [onMount])
   const [initialSim] = useState<Sim>(() => ({
     ball: startBall(maze),
     pointer: null,
@@ -417,22 +423,42 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
-// Static preview for the start / game-over screens: the maze with the ball at the start.
-function MazePreview() {
-  const [maze] = useState(generateMaze)
+// Start-screen preview: same layout as a round, showing the maze the first
+// round will use (the ball at the start, no coins collected yet).
+function Preview({ maze }: { maze: Maze }) {
+  const { t } = useTranslation()
   return (
-    <div className={`relative aspect-square max-h-[60svh] overflow-hidden rounded-lg border-4 border-iris opacity-80 ${BOARD_SIZE}`}>
-      <MazeBoard maze={maze} />
-      <CoinsView maze={maze} collected={new Set()} />
-      <BallView maze={maze} ball={startBall(maze)} falling={false} />
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 bg-ink text-cream">
+      <div className="flex gap-8 text-lg font-semibold">
+        <span>{t('mazeBall.coins', { value: 0, total: maze.coins.length })}</span>
+        <span>{t('mazeBall.time', { value: '0.0' })}</span>
+      </div>
+
+      <div className={`relative aspect-square overflow-hidden rounded-lg border-4 border-iris ${BOARD_SIZE}`}>
+        <MazeBoard maze={maze} />
+        <CoinsView maze={maze} collected={new Set()} />
+        <BallView maze={maze} ball={startBall(maze)} falling={false} />
+      </div>
     </div>
   )
 }
 
 export function MazeBallGame() {
+  // The maze shown behind "tap to start" is the one the first round plays, so
+  // the board doesn't change when the round begins. Later rounds get new mazes.
+  const [firstMaze] = useState(generateMaze)
+  const firstMazeUsed = useRef(false)
   return (
-    <GameShell gameId={GAME_ID} visual={<MazePreview />}>
-      {(api) => <Round {...api} />}
+    <GameShell gameId={GAME_ID} preview={<Preview maze={firstMaze} />}>
+      {(api) => (
+        <Round
+          {...api}
+          initialMaze={firstMazeUsed.current ? undefined : firstMaze}
+          onMount={() => {
+            firstMazeUsed.current = true
+          }}
+        />
+      )}
     </GameShell>
   )
 }

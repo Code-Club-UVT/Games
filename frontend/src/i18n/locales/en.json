@@ -6,7 +6,7 @@
     "language": "Language"
   },
   "login": {
-    "title": "Touch Games",
+    "title": "CodeClub UVT Minigames",
     "subtitle": "Enter a username to start playing.",
     "placeholder": "Your name",
     "play": "Play",
@@ -19,7 +19,8 @@
   },
   "gameSelect": {
     "title": "Choose a game",
-    "playingAs": "Playing as {{username}}"
+    "playingAs": "Playing as {{username}}",
+    "wip": "WIP"
   },
   "logout": {
     "button": "Log Out",
@@ -36,7 +37,8 @@
   "gameDetail": {
     "play": "Play",
     "leaderboard": "Leaderboard",
-    "noScores": "No scores yet — be the first to play!"
+    "noScores": "No scores yet — be the first to play!",
+    "videoPlaceholder": "How-to-play video coming soon"
   },
   "gamePage": {
     "comingSoon": "Coming soon",

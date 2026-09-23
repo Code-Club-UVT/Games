@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '../components/BackButton'
+import { BackIcon } from '../components/icons'
 import { getGameById } from '../data/games'
 import { gameComponents } from '../games/registry'
 import { useFullscreen } from '../hooks/useFullscreen'
@@ -12,7 +13,7 @@ export function GamePage() {
   const game = gameId ? getGameById(gameId) : undefined
   const containerRef = useFullscreen<HTMLDivElement>()
 
-  if (!game) return <Navigate to="/games" replace />
+  if (!game || game.wip) return <Navigate to="/games" replace />
 
   const GameComponent = gameComponents[game.id]
 
@@ -21,6 +22,8 @@ export function GamePage() {
       <BackButton
         label={t('common.exit')}
         onClick={() => navigate(`/games/${game.id}`)}
+        variant="danger"
+        icon={<BackIcon />}
         className="absolute top-4 left-4 z-10"
       />
 

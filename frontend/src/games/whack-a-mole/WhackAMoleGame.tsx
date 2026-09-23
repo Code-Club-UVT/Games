@@ -36,6 +36,7 @@ interface Snapshot {
 interface Sim {
   startedAt: number
   nextSpawnAt: number
+  lastHole: number | null
   moleExpiresAt: (number | null)[]
   hitUntil: number[]
   score: number
@@ -125,6 +126,7 @@ function Round({ finish }: GameShellApi) {
     const sim: Sim = {
       startedAt: start,
       nextSpawnAt: start + 600,
+      lastHole: null,
       moleExpiresAt: Array<number | null>(HOLE_COUNT).fill(null),
       hitUntil: Array<number>(HOLE_COUNT).fill(0),
       score: 0,
@@ -147,13 +149,15 @@ function Round({ finish }: GameShellApi) {
       })
 
       if (now >= sim.nextSpawnAt) {
+        // A mole never pops up in the same hole twice in a row.
         const free = sim.moleExpiresAt.flatMap((expiresAt, index) =>
-          expiresAt === null ? [index] : [],
+          expiresAt === null && index !== sim.lastHole ? [index] : [],
         )
         if (free.length > 0) {
           const hole = free[Math.floor(Math.random() * free.length)]
           sim.moleExpiresAt[hole] = now + lerp(MOLE_UP_START_MS, MOLE_UP_END_MS, progress)
           sim.hitUntil[hole] = 0
+          sim.lastHole = hole
         }
         sim.nextSpawnAt = now + lerp(SPAWN_GAP_START_MS, SPAWN_GAP_END_MS, progress)
       }
@@ -212,14 +216,30 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
-// Static preview for the start screen: a single mole popping out of the middle hole.
+// Start-screen preview: the same layout as a round, with one mole in the middle hole.
 const PREVIEW_HOLES: HoleView[] = Array.from({ length: HOLE_COUNT }, (_, index) =>
   index === Math.floor(HOLE_COUNT / 2) ? 'mole' : 'empty',
 )
 
+function Preview() {
+  const { t } = useTranslation()
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-6 bg-ink text-cream">
+      <div className="flex gap-8 text-lg font-semibold">
+        <span>{t('whackAMole.score', { value: 0 })}</span>
+        <span>{t('whackAMole.time', { value: ROUND_MS / 1000 })}</span>
+      </div>
+
+      <p className="h-6" />
+
+      <MoleGrid holes={PREVIEW_HOLES} />
+    </div>
+  )
+}
+
 export function WhackAMoleGame() {
   return (
-    <GameShell gameId={GAME_ID} visual={<MoleGrid holes={PREVIEW_HOLES} />}>
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

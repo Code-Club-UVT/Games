@@ -6,7 +6,7 @@
     "language": "Limbă"
   },
   "login": {
-    "title": "Jocuri Tactile",
+    "title": "CodeClub UVT Minigames",
     "subtitle": "Introdu un nume de utilizator pentru a începe să joci.",
     "placeholder": "Numele tău",
     "play": "Joacă",
@@ -19,12 +19,13 @@
   },
   "gameSelect": {
     "title": "Alege un joc",
-    "playingAs": "Joci ca {{username}}"
+    "playingAs": "Joci ca {{username}}",
+    "wip": "În lucru"
   },
   "logout": {
     "button": "Deconectare",
     "title": "Deconectare",
-    "description": "Introdu parola de personal pentru a te deconecta și a lăsa pe altcineva să se conecteze.",
+    "description": "Introdu parola personalului ca să te deconectezi și să lași pe altcineva să joace.",
     "passwordPlaceholder": "Parolă",
     "confirm": "Deconectare",
     "errors": {
@@ -36,7 +37,8 @@
   "gameDetail": {
     "play": "Joacă",
     "leaderboard": "Clasament",
-    "noScores": "Încă nu există scoruri — fii primul care joacă!"
+    "noScores": "Încă nu există scoruri — fii primul care joacă!",
+    "videoPlaceholder": "Video cu explicații — în curând"
   },
   "gamePage": {
     "comingSoon": "În curând",
@@ -44,46 +46,46 @@
   },
   "games": {
     "f1-lights-out": {
-      "title": "Start de Formula 1",
-      "description": "Urmărește cele cinci lumini roșii până se sting, apoi apasă cât mai aproape de acel moment. Dacă apeși prea devreme, faci start fals — 0 puncte!"
+      "title": "Start F1",
+      "description": "Cinci lumini roșii se aprind una câte una. Când se sting toate, apasă cât mai repede! Dacă apeși prea devreme, primești 0 puncte."
     },
     "stack-the-blocks": {
-      "title": "Stivuiește Blocurile",
-      "description": "Apasă pentru a lăsa fiecare bloc culisant să cadă pe stivă. Partea care iese în afară este tăiată, așa că fii precis și construiește turnul cât mai înalt."
+      "title": "Turnul de Blocuri",
+      "description": "Apasă ca să lași blocul să cadă peste turn. Ce iese în afară se taie, așa că țintește bine și construiește un turn cât mai înalt."
     },
     "whack-a-mole": {
-      "title": "Lovește Cârtița",
-      "description": "Cârtițele apar din găurile lor — apasă-le înainte să se ascundă din nou. Înlănțuie loviturile pentru bonusuri de combo."
+      "title": "Prinde Cârtițele",
+      "description": "Cârtițele ies din găuri și se ascund repede. Atinge-le înainte să dispară! Dacă prinzi mai multe la rând, primești puncte în plus."
     },
     "lane-swipe-runner": {
-      "title": "Alergare pe Benzi",
-      "description": "Glisează stânga sau dreapta (sau folosește săgețile ori A și D) ca să treci mașina între benzi și să eviți traficul. Cu cât supraviețuiești mai mult, cu atât viteza crește — câștigă cine parcurge cea mai mare distanță."
+      "title": "Cursa pe Șosea",
+      "description": "Glisează la stânga sau la dreapta (sau folosește săgețile ori tastele A și D) ca să treci cu mașina de pe o bandă pe alta și să ocolești celelalte mașini. Cu cât mergi mai departe, cu atât mergi mai repede!"
     },
     "maze-ball-drag": {
-      "title": "Mingea prin Labirint",
-      "description": "Trage mingea prin labirint până la ieșire sau condu-o cu săgețile ori cu WASD. Adună monede pentru puncte bonus, dar grăbește-te — fiecare secundă costă puncte, iar o gaură te costă timp și te trimite înapoi."
+      "title": "Mingea din Labirint",
+      "description": "Trage mingea prin labirint până la ieșire (sau folosește săgețile ori tastele WASD). Strânge monede pentru puncte în plus, dar nu pierde timp: fiecare secundă îți scade scorul. Dacă cazi într-o gaură, pierzi timp."
     },
     "simon-says-colors": {
-      "title": "Secvența de Culori",
-      "description": "Repetă modelul tot mai lung de pătrate colorate în ordinea corectă. O apăsare greșită încheie runda."
+      "title": "Ține Minte Culorile",
+      "description": "Uită-te la ordinea în care se aprind culorile, apoi apasă-le în aceeași ordine. La fiecare rundă mai apare o culoare. O greșeală și jocul se termină."
     },
     "card-flip-matching": {
-      "title": "Perechi de Cărți",
-      "description": "Întoarce câte două cărți pentru a găsi perechi identice. Mai puține încercări și un timp mai rapid înseamnă un scor mai bun."
+      "title": "Găsește Perechile",
+      "description": "Întoarce câte două cărți și caută imaginile la fel. Cu cât găsești toate perechile mai repede și din mai puține încercări, cu atât scorul e mai mare."
     },
     "balloon-pop-precision": {
-      "title": "Baloane la Țintă",
-      "description": "Sparge baloanele chiar în momentul în care apar pentru o lovitură perfectă. Precizia îți crește multiplicatorul de scor."
+      "title": "Sparge Baloanele",
+      "description": "Un inel se micșorează în jurul fiecărui balon. Apasă exact când inelul ajunge la marginea balonului! Cu cât ești mai precis, cu atât primești mai multe puncte."
     },
     "bomb-defusal": {
-      "title": "Dezamorsarea Bombei",
-      "description": "Citește manualul, apoi dezamorsează modulul înainte să expire timpul. Mai multe module înseamnă mai multe lucruri de urmărit simultan."
+      "title": "Dezamorsează Bomba",
+      "description": "Citește manualul, apoi dezamorsează bomba înainte să se termine timpul."
     }
   },
   "f1LightsOut": {
-    "wait": "Așteaptă până se sting luminile…",
+    "wait": "Așteaptă să se stingă luminile…",
     "go": "START!",
-    "jumpStart": "Start fals! 0 puncte",
+    "jumpStart": "Ai apăsat prea devreme! 0 puncte",
     "reactionTime": "{{value}} ms"
   },
   "gameShell": {
@@ -94,11 +96,11 @@
     "playAgain": "Joacă din nou",
     "gameOver": "Joc încheiat",
     "standing": {
-      "first": "Ai stabilit primul scor din clasament!",
+      "first": "Ai obținut primul scor din clasament!",
       "best": "Cel mai bun scor — ești pe locul 1!",
-      "top": "Felicitări, ești în top 5! Ai ocupat locul {{rank}}",
+      "top": "Bravo, ești în top 5! Ai ajuns pe locul {{rank}}",
       "percent": "Ai fost mai bun decât {{percent}}% dintre jucători",
-      "keepGoing": "Continuă să exersezi — data viitoare vei întrece mai mulți jucători!"
+      "keepGoing": "Mai încearcă — data viitoare poți întrece și mai mulți jucători!"
     }
   },
   "simonSays": {
@@ -121,7 +123,7 @@
     "combo": "Combo x{{value}}",
     "hole": "Gaura {{value}}",
     "result": "{{value}} puncte",
-    "details": "{{hits}} cârtițe lovite · cel mai bun combo {{combo}}"
+    "details": "{{hits}} cârtițe prinse · cel mai lung combo: {{combo}}"
   },
   "balloonPop": {
     "score": "Scor: {{value}}",
@@ -129,7 +131,7 @@
     "multiplier": "x{{value}}",
     "balloon": "Balon",
     "result": "{{value}} puncte",
-    "details": "{{popped}} din {{total}} sparte · {{perfect}} perfecte",
+    "details": "{{popped}} din {{total}} baloane sparte · {{perfect}} perfecte",
     "judgment": {
       "perfect": "Perfect!",
       "great": "Foarte bine!",
@@ -142,9 +144,9 @@
   "stackBlocks": {
     "score": "Blocuri: {{value}}",
     "perfect": "Perfect!",
-    "result_one": "{{count}} bloc stivuit",
-    "result_few": "{{count}} blocuri stivuite",
-    "result_other": "{{count}} de blocuri stivuite"
+    "result_one": "{{count}} bloc pus",
+    "result_few": "{{count}} blocuri puse",
+    "result_other": "{{count}} de blocuri puse"
   },
   "mazeBall": {
     "time": "Timp: {{value}} s",

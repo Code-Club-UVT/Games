@@ -276,7 +276,7 @@ function Round({ finish }: GameShellApi) {
     >
       <div
         ref={fieldRef}
-        className="absolute inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2 overflow-hidden"
+        className="absolute top-0 bottom-24 left-1/2 w-full max-w-md -translate-x-1/2 overflow-hidden"
       >
         <div
           className="absolute inset-0 transition-transform duration-300 ease-out"
@@ -313,26 +313,31 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
-// Static preview for the start screen: a small tower with the next block sliding in.
-function TowerPreview() {
-  const blocks: Block[] = [
-    { left: 20, width: 60, color: 0 },
-    { left: 26, width: 52, color: 1 },
-    { left: 30, width: 46, color: 2 },
-  ]
+// Start-screen preview: the field exactly as a round begins - the base block
+// with the first block sliding in above it.
+function Preview() {
+  const { t } = useTranslation()
+  const sim = createSim()
   return (
-    <div className="relative h-64 w-64">
-      {blocks.map((block, index) => (
-        <BlockView key={index} block={block} level={index} />
-      ))}
-      <BlockView block={{ left: 44, width: 46, color: 3 }} level={blocks.length} hovering className="opacity-70" />
+    <div className="relative flex-1 overflow-hidden bg-ink text-cream">
+      <div className="absolute top-0 bottom-24 left-1/2 w-full max-w-md -translate-x-1/2 overflow-hidden">
+        <div className="absolute inset-0">
+          <BlockView block={sim.stack[0]} level={0} />
+          <BlockView block={sim.moving} level={1} hovering />
+        </div>
+      </div>
+
+      <div className="absolute inset-x-0 top-4 flex flex-col items-center gap-1">
+        <span className="text-lg font-semibold">{t('stackBlocks.score', { value: 0 })}</span>
+        <span className="h-6" />
+      </div>
     </div>
   )
 }
 
 export function StackBlocksGame() {
   return (
-    <GameShell gameId={GAME_ID} visual={<TowerPreview />}>
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

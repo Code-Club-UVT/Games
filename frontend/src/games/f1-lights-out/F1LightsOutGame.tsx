@@ -80,9 +80,19 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
+function Preview() {
+  const { t } = useTranslation()
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-10 bg-ink text-center text-cream">
+      <LightRow litCount={0} total={LIGHT_COUNT} />
+      <p className="text-lg text-cream/60">{t('f1LightsOut.wait')}</p>
+    </div>
+  )
+}
+
 export function F1LightsOutGame() {
   return (
-    <GameShell gameId={GAME_ID} visual={<LightRow litCount={0} total={LIGHT_COUNT} />}>
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

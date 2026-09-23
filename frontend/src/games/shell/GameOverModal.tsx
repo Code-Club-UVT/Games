@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import { BackIcon } from '../../components/icons'
 import { Fireworks } from './Fireworks'
 import { isCelebrated, type Standing } from './standing'
 
@@ -67,8 +68,9 @@ export function GameOverModal({
           <button
             type="button"
             onClick={onBack}
-            className="rounded-full bg-cream/15 px-8 py-3 text-lg font-semibold text-cream transition hover:bg-cream/25 active:scale-95"
+            className="inline-flex items-center gap-2 rounded-full bg-cherry px-8 py-3 text-lg font-semibold text-cream transition hover:bg-cherry/85 active:scale-95"
           >
+            <BackIcon />
             {t('common.back')}
           </button>
           <button

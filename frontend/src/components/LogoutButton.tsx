@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/useAuth'
+import { LogoutIcon } from './icons'
 import { LogoutConfirmDialog } from './LogoutConfirmDialog'
 
 export function LogoutButton() {
@@ -13,8 +14,9 @@ export function LogoutButton() {
       <button
         type="button"
         onClick={() => setIsDialogOpen(true)}
-        className="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink ring-1 ring-ink/15 transition hover:bg-ink/5 active:scale-95"
+        className="inline-flex w-32 items-center justify-center gap-1.5 rounded-full bg-white px-2 py-2 text-center text-sm font-medium text-ink ring-1 ring-ink/15 transition hover:bg-ink/5 active:scale-95"
       >
+        <LogoutIcon />
         {t('logout.button')}
       </button>
 

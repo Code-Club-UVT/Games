@@ -21,8 +21,10 @@ export interface GameShellApi {
 
 interface GameShellProps {
   gameId: string
-  // Optional artwork shown above the text on the start screen.
-  visual?: ReactNode
+  // The board as it looks at the start of a round, laid out exactly like the
+  // real round (same size and position) so starting doesn't make it jump. It
+  // is shown behind the "tap anywhere" hint and ignores pointer input.
+  preview: ReactNode
   // Rendered while a round is in progress and kept on screen, in its final
   // state, behind the game-over modal. Remounted on every new round, so games
   // can keep their round state in plain component state.
@@ -37,7 +39,7 @@ interface Report {
   standing: Standing | null
 }
 
-export function GameShell({ gameId, visual, children }: GameShellProps) {
+export function GameShell({ gameId, preview, children }: GameShellProps) {
   const { t } = useTranslation()
   const { username } = useAuth()
   const navigate = useNavigate()
@@ -91,10 +93,12 @@ export function GameShell({ gameId, visual, children }: GameShellProps) {
     return (
       <div
         onPointerDown={startRound}
-        className="flex flex-1 cursor-pointer flex-col items-center justify-center gap-10 bg-ink text-center select-none"
+        className="relative flex flex-1 cursor-pointer flex-col bg-ink text-center select-none"
       >
-        {visual}
-        <p className="text-xl font-medium text-cream">{t('gameShell.tapToStart')}</p>
+        <div className="pointer-events-none flex flex-1 flex-col opacity-60">{preview}</div>
+        <p className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit max-w-[90%] animate-pulse rounded-full bg-ink/85 px-6 py-3 text-xl font-medium text-cream ring-1 ring-cream/30">
+          {t('gameShell.tapToStart')}
+        </p>
       </div>
     )
   }

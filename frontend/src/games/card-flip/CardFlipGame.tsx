@@ -157,32 +157,27 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
-// Static preview for the start / game-over screens: one matched pair face up
-// among face-down cards, so the goal is clear before the first round.
-const PREVIEW_PAIR = [1, 6]
-
-function CardBackPreview() {
+function Preview() {
+  const { t } = useTranslation()
   return (
-    <div className="grid grid-cols-4 gap-2 sm:gap-4">
-      {Array.from({ length: 8 }, (_, index) => {
-        const faceUp = PREVIEW_PAIR.includes(index)
-        return (
-          <Card
-            key={index}
-            symbol={faceUp ? SYMBOLS[0] : ''}
-            faceUp={faceUp}
-            matched={faceUp}
-            label=""
-          />
-        )
-      })}
+    <div className="flex flex-1 flex-col items-center justify-center gap-6 bg-ink text-cream">
+      <div className="flex gap-8 text-lg font-semibold text-cream">
+        <span>{t('cardFlip.moves', { value: 0 })}</span>
+        <span>{t('cardFlip.time', { value: '0.0' })}</span>
+      </div>
+
+      <div className="grid grid-cols-4 gap-2 sm:gap-4">
+        {Array.from({ length: SYMBOLS.length * 2 }, (_, index) => (
+          <Card key={index} symbol="" faceUp={false} matched={false} label="" />
+        ))}
+      </div>
     </div>
   )
 }
 
 export function CardFlipGame() {
   return (
-    <GameShell gameId={GAME_ID} visual={<CardBackPreview />}>
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

@@ -330,52 +330,76 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
-// Static preview for the start screen: a short stretch of road with a few cars.
-function RoadPreview() {
-  const width = 200
-  const height = 260
-  const laneWidth = width / LANES
+// Start-screen preview: same HUD and road as a round (measured the same way),
+// with the player's car in the middle lane and a little traffic ahead.
+const PREVIEW_CARS: { lane: number; topFraction: number; model: CarModel; color: string }[] = [
+  { lane: 0, topFraction: 0.08, model: 'truck', color: 'text-cherry' },
+  { lane: 2, topFraction: 0.22, model: 'van', color: 'text-azure' },
+  { lane: 0, topFraction: 0.5, model: 'hatch', color: 'text-sun' },
+]
+
+function Preview() {
+  const { t } = useTranslation()
+  const fieldRef = useRef<HTMLDivElement>(null)
+  const [size, setSize] = useState<Dimensions>({ width: 384, height: 700 })
+
+  useEffect(() => {
+    const field = fieldRef.current
+    if (!field) return
+    const observer = new ResizeObserver(() =>
+      setSize({ width: field.clientWidth, height: field.clientHeight }),
+    )
+    observer.observe(field)
+    return () => observer.disconnect()
+  }, [])
+
+  const laneWidth = size.width / LANES
   const carWidth = laneWidth * CAR_WIDTH
   const carHeight = carWidth * 2
-  const cars: { lane: number; top: number; model: CarModel; color: string }[] = [
-    { lane: 0, top: 24, model: 'truck', color: 'text-cherry' },
-    { lane: 2, top: 70, model: 'van', color: 'text-azure' },
-    { lane: 0, top: 150, model: 'hatch', color: 'text-sun' },
-  ]
+  const playerTop = size.height - carHeight - size.height * 0.06
+  const carLeft = (lane: number) => lane * laneWidth + (laneWidth - carWidth) / 2
+
   return (
-    <div className="overflow-hidden rounded-lg border-4 border-dusk">
-      <Road width={width} height={height} distance={0}>
-        {cars.map((car) => (
+    <div className="relative flex flex-1 flex-col items-center justify-center gap-3 bg-ink text-cream">
+      <div className="flex gap-8 text-lg font-semibold">
+        <span>{t('laneRunner.distance', { value: 0 })}</span>
+        <span>{t('laneRunner.speed', { value: Math.round(START_SPEED * 3.6) })}</span>
+      </div>
+
+      <div ref={fieldRef} className="h-[78svh] w-[min(92vw,24rem)]">
+        <Road width={size.width} height={size.height} distance={0}>
+          {PREVIEW_CARS.map((car) => (
+            <Car
+              key={car.topFraction}
+              model={car.model}
+              className={`absolute ${car.color}`}
+              style={{
+                width: carWidth,
+                height: carHeight,
+                left: carLeft(car.lane),
+                top: car.topFraction * size.height,
+              }}
+            />
+          ))}
           <Car
-            key={car.top}
-            model={car.model}
-            className={`absolute ${car.color}`}
+            model="sport"
+            className="absolute text-brand"
             style={{
               width: carWidth,
               height: carHeight,
-              left: car.lane * laneWidth + (laneWidth - carWidth) / 2,
-              top: car.top,
+              left: carLeft(Math.floor(LANES / 2)),
+              top: playerTop,
             }}
           />
-        ))}
-        <Car
-          model="sport"
-          className="absolute text-brand"
-          style={{
-            width: carWidth,
-            height: carHeight,
-            left: laneWidth + (laneWidth - carWidth) / 2,
-            top: height - carHeight - 14,
-          }}
-        />
-      </Road>
+        </Road>
+      </div>
     </div>
   )
 }
 
 export function LaneRunnerGame() {
   return (
-    <GameShell gameId={GAME_ID} visual={<RoadPreview />}>
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
       {(api) => <Round {...api} />}
     </GameShell>
   )

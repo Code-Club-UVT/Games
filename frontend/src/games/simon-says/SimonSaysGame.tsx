@@ -121,6 +121,21 @@ function Round({ finish }: GameShellApi) {
   )
 }
 
+function Preview() {
+  const { t } = useTranslation()
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-8 bg-ink text-cream">
+      <p className="text-xl font-semibold text-cream">{t('simonSays.round', { value: 1 })}</p>
+      <PadGrid litPad={null} interactive={false} />
+      <p className="h-6 text-lg text-cream/70">{t('simonSays.watch')}</p>
+    </div>
+  )
+}
+
 export function SimonSaysGame() {
-  return <GameShell gameId={GAME_ID} visual={<PadGrid litPad={null} interactive={false} />}>{(api) => <Round {...api} />}</GameShell>
+  return (
+    <GameShell gameId={GAME_ID} preview={<Preview />}>
+      {(api) => <Round {...api} />}
+    </GameShell>
+  )
 }
