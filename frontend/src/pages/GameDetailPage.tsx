@@ -63,6 +63,7 @@ export function GameDetailPage() {
           {game.video ? (
             <video
               src={game.video}
+              autoPlay
               controls
               loop
               muted

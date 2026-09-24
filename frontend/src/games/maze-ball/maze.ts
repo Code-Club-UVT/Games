@@ -17,6 +17,7 @@ const EXTRA_OPENINGS = 12 // walls knocked out so the maze has loops, i.e. sever
 const TRAPS_ON_ROUTE = 4 // holes placed on the shortest route (each with a way around)
 const COIN_COUNT = 14
 const COIN_SPACING = 4 // minimum distance between two coins, in tiles
+const COIN_ZONES = 4 // grid of zones (per side) coins are drawn from round-robin, for spread
 const DECOY_TRAPS = 5 // holes placed elsewhere, to make wandering risky
 const TRAP_SPACING = 5 // minimum distance between two holes, in tiles
 
@@ -64,8 +65,10 @@ function findRoute(tiles: Tile[][], from: [number, number], to: [number, number]
   return null
 }
 
-// Number of steps from `from` to every reachable floor tile (traps block the way).
-function distancesFrom(tiles: Tile[][], from: [number, number]) {
+// Number of steps from `from` to every reachable floor tile (traps block the
+// way, and so does `avoid` if given — used to keep coins reachable without
+// ever setting foot on the exit tile, which would end the round early).
+function distancesFrom(tiles: Tile[][], from: [number, number], avoid?: [number, number]) {
   const size = tiles.length
   const distance = new Map<number, number>([[from[1] * size + from[0], 0]])
   const queue: [number, number][] = [from]
@@ -74,6 +77,7 @@ function distancesFrom(tiles: Tile[][], from: [number, number]) {
     for (const [dc, dr] of DIRECTIONS) {
       const nc = col + dc
       const nr = row + dr
+      if (avoid && nc === avoid[0] && nr === avoid[1]) continue
       const k = nr * size + nc
       if (tiles[nr]?.[nc] !== 'floor' || distance.has(k)) continue
       distance.set(k, distance.get(row * size + col)! + 1)
@@ -153,8 +157,10 @@ export function generateMaze(seed = Math.floor(Math.random() * 2 ** 32)): Maze {
   }
 
   // Coins go in dead ends and far corners, off the fastest route, so grabbing
-  // them is a detour worth weighing against the clock.
-  const reachable = distancesFrom(tiles, [start.col, start.row])
+  // them is a detour worth weighing against the clock. The exit tile is
+  // treated as blocked here so every candidate is reachable without ever
+  // setting foot on it — stepping on the exit ends the round immediately.
+  const reachable = distancesFrom(tiles, [start.col, start.row], [exit.col, exit.row])
   const onShortestRoute = new Set(
     findRoute(tiles, [start.col, start.row], [exit.col, exit.row])!.map(([c, r]) => r * size + c),
   )
@@ -162,20 +168,56 @@ export function generateMaze(seed = Math.floor(Math.random() * 2 ** 32)): Maze {
   reachable.forEach((distance, k) => {
     const col = k % size
     const row = Math.floor(k / size)
-    if (distance < 4 || (col === exit.col && row === exit.row)) return
+    if (distance < 4) return
     const openSides = DIRECTIONS.filter(([dc, dr]) => tiles[row + dr][col + dc] !== 'wall').length
     // Dead ends first, then whatever is far from the start; the fastest route is a last resort.
     const value = (openSides === 1 ? 100 : 0) + distance - (onShortestRoute.has(k) ? 40 : 0) + random() * 6
     spots.push({ col, row, value })
   })
-  spots.sort((a, b) => b.value - a.value)
-  const coins: { col: number; row: number }[] = []
+
+  // Bucket candidates into a grid of zones and take turns drawing from each
+  // zone (best value first) so coins land across the whole map instead of
+  // clustering wherever the value score peaks.
+  const zoneSize = size / COIN_ZONES
+  const zoneKey = (col: number, row: number) =>
+    Math.min(COIN_ZONES - 1, Math.floor(row / zoneSize)) * COIN_ZONES +
+    Math.min(COIN_ZONES - 1, Math.floor(col / zoneSize))
+  const zones = new Map<number, { col: number; row: number; value: number }[]>()
   for (const spot of spots) {
-    if (coins.length >= COIN_COUNT) break
-    const tooClose = coins.some(
-      (coin) => Math.abs(coin.col - spot.col) + Math.abs(coin.row - spot.row) < COIN_SPACING,
-    )
-    if (!tooClose) coins.push({ col: spot.col, row: spot.row })
+    const z = zoneKey(spot.col, spot.row)
+    const list = zones.get(z)
+    if (list) list.push(spot)
+    else zones.set(z, [spot])
+  }
+  zones.forEach((list) => {
+    list.sort((a, b) => b.value - a.value)
+  })
+  const zoneOrder = [...zones.keys()]
+  for (let i = zoneOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1))
+    ;[zoneOrder[i], zoneOrder[j]] = [zoneOrder[j], zoneOrder[i]]
+  }
+
+  const coins: { col: number; row: number }[] = []
+  for (let hasCandidates = true; coins.length < COIN_COUNT && hasCandidates; ) {
+    hasCandidates = false
+    for (const z of zoneOrder) {
+      if (coins.length >= COIN_COUNT) break
+      const list = zones.get(z)
+      if (!list) continue
+      while (list.length > 0) {
+        const spot = list.shift()
+        if (!spot) break
+        const tooClose = coins.some(
+          (coin) => Math.abs(coin.col - spot.col) + Math.abs(coin.row - spot.row) < COIN_SPACING,
+        )
+        if (!tooClose) {
+          coins.push({ col: spot.col, row: spot.row })
+          hasCandidates = true
+          break
+        }
+      }
+    }
   }
 
   return { size, tiles, start, exit, coins }
